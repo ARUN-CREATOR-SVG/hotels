@@ -1,0 +1,7 @@
+#The .gitIgnore file is a special configuration file used in Git repositiries to specify files and directories that should be ignored by Git
+#These ignored files and directories won't be tracked by Git or included in version control
+
+
+#Ignore node_modules directory
+#node_modules/ => jitne bhi files h usko track krne ki jarrorat nahi hai
+node_modules/
