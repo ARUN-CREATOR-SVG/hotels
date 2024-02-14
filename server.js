@@ -97,7 +97,9 @@ app.use(express.urlencoded({extended:false}));
 
   //  // import the router files
   const personRoutes=require('./routes/personroutes');
+  const menuItemRoutes = require('./routes/menuItemRoutes');
   app.use('/person',personRoutes);
+  app.use('/menu', menuItemRoutes);
 
 
   const PORT=process.env.PORT||4000;
