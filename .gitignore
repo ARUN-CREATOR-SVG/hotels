@@ -5,3 +5,4 @@
 #Ignore node_modules directory
 #node_modules/ => jitne bhi files h usko track krne ki jarrorat nahi hai
 node_modules/
+.env

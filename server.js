@@ -27,6 +27,9 @@ const express = require('express');
 const app = express();
 const db=require('./db');
 const path = require('path');
+require('dotenv').config();
+// // server knows it has an env file and 
+
 
 // Serve static files from the public directory
 const bodyParser=require('body-parser');//converts recieved  data to  json 
@@ -95,4 +98,11 @@ app.use(express.urlencoded({extended:false}));
   //  // import the router files
   const personRoutes=require('./routes/personroutes');
   app.use('/person',personRoutes);
-  app.listen(4000);
+
+
+  const PORT=process.env.PORT||4000;
+
+  app.listen(PORT,()=>{
+    console.log(`Listening on port ${PORT}`);
+
+  });
