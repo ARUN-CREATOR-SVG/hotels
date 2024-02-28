@@ -3,8 +3,9 @@
 const express=require("express");
 const router=express.Router();
 const person=require('./../models/person');
+const {jwtAuthMiddleware,generateToken}=require('./../jwt');
 
-router.post('/', async (req,res)=>{
+router.post('/signup', async (req,res)=>{
     try{
     //body parser process the data and store it in req.body
     const data=req.body;
@@ -13,15 +14,60 @@ router.post('/', async (req,res)=>{
   // save the  new person to the database
   const response=await newPerson.save();
   console.log("data saved");
-  res.status(200).json(response);
+
+  const payload={
+    id:response.id,
+    username:response.username
+  }
+ 
+
+  const token=generateToken(payload);
+  console.log("Token is: ",token);
+  res.status(200).json({response:response,token:token});
   }
   catch(err){
-  console.log("Error");
+  console.log("Error",err);
   res.status(500).json({error:"Internal server error"});
   }
   })
   
-  router.get('/',async (req,res)=>{
+  //Login Routes for login
+
+  router.post('/login', async (req,res)=>{
+    try{
+      // Extract username and password from request body
+
+      const {username,password}=req.body;
+
+      // Find user by username
+      const user=await person.findOne({username:username});
+
+      // if user does'nt exist or password doesn't match
+      if(!user||!(await user.comparePassword(password))){
+        return res.status(401).json({error:"Invalid username or password"});
+      }
+
+      //generate token
+      const payload={
+        id:user.id,
+        username:user.username
+      }
+
+      const token=generateToken(payload);
+
+      // return token as response
+      res.json({token});
+    }
+    catch(err){
+      console.log("Error",err);
+      res.status(500).json({error:"Internal server error"})
+    }
+  })
+
+
+
+
+  router.get('/',jwtAuthMiddleware,async (req,res)=>{
     try{
         const data=await person.find();
         console.log("data fetched");
@@ -34,8 +80,8 @@ router.post('/', async (req,res)=>{
       res.status(500).json({error:"Internal server error"});
     }
   })
-  // //paramAterized endpoint
-  router.get('/:worktype', async (req,res)=>{
+  //paramAterized endpoint
+  router.get('/worktype/:worktype', async (req,res)=>{
     try{
       const worktype=req.params.worktype;
       if(worktype=="chef"||worktype=="manager"||worktype=="waiter"){
@@ -50,6 +96,23 @@ router.post('/', async (req,res)=>{
     }
   })
 
+    router.get('/name/:name',async (req,res)=>{
+      try{
+        const personbyName=req.params.name;
+        const response=await person.findOne({name:personbyName})
+        console.log(req.params.name);
+        if(response)console.log("person found");
+        else {
+          console.log("Person not found");
+        }
+        res.status(200).json(response);
+      }
+      catch(err){
+        console.log(err);
+      res.status(500).json({error:"Internal server error"});
+      }
+
+    })
   // // update the data by using unique id(object id assigned by mongodb)
   router.put('/:id', async(req,res)=>{
     try{
@@ -89,5 +152,6 @@ router.post('/', async (req,res)=>{
         res.status(500).json({error:"Internal server error"});
       }
   })
+
 //  comment added for testing purpose
    module.exports=router;
