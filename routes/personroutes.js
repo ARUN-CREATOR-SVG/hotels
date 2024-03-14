@@ -66,8 +66,25 @@ router.post('/signup', async (req,res)=>{
 
 
 
+  router.get('/profile', jwtAuthMiddleware,async(req,res)=>{
+    try{
+      // after a user logs in successfully, their user information may be stored in req.user for subsequent requests.
+      const userData=req.user;
+      console.log("user data: ",userData);
 
-  router.get('/',jwtAuthMiddleware,async (req,res)=>{
+      const userId=userData.id;
+      const user=await person.findById(userId);
+      res.status(200).json({user});
+    }
+    catch(err){
+      console.log("Error",err);
+      res.status(500).json({error:"Internal server error"});
+    }
+  })
+
+
+
+  router.get('/',async (req,res)=>{
     try{
         const data=await person.find();
         console.log("data fetched");
@@ -153,5 +170,5 @@ router.post('/signup', async (req,res)=>{
       }
   })
 
-//  comment added for testing purpose
-   module.exports=router;
+
+  module.exports=router;

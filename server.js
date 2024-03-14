@@ -51,7 +51,7 @@ const localAuthMiddleware=passport.authenticate('local',{session:false})
   //  // ===============import the router files==========
   const personRoutes=require('./routes/personroutes');
   const menuItemRoutes = require('./routes/menuItemRoutes');
-  app.use('/person',personRoutes);
+  app.use('/person', personRoutes);
   app.use('/menu', menuItemRoutes);
 // //===================================================
 
