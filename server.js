@@ -2,11 +2,15 @@
 ////****(req.body typically contains the parsed JSON or URL-encoded data sent by the client in a POST request.)
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const db=require('./db');
 const path = require('path');
 require('dotenv').config();
 const Person=require('./models/person');
 const passport=require('./auth');
+
+// Add CORS middleware to allow requests from all origins
+app.use(cors());
 
 // Serve static files from the public directory
 const bodyParser=require('body-parser');//converts recieved  data to  json 
