@@ -98,20 +98,20 @@ router.post('/signup', async (req,res)=>{
     }
   })
   //paramAterized endpoint
-  router.get('/worktype/:worktype', async (req,res)=>{
-    try{
-      const worktype=req.params.worktype;
-      if(worktype=="chef"||worktype=="manager"||worktype=="waiter"){
-        const response=await person.find({work:worktype});
-        console.log("data fetched");
-        res.status(200).json(response);
-      }
-    }
-    catch(err){
-      console.log(err);
-      res.status(500).json({error:"Internal server error"});
-    }
-  })
+  // router.get('/worktype/:worktype', async (req,res)=>{
+  //   try{
+  //     const worktype=req.params.worktype;
+  //     if(worktype=="chef"||worktype=="manager"||worktype=="waiter"){
+  //       const response=await person.find({work:worktype});
+  //       console.log("data fetched");
+  //       res.status(200).json(response);
+  //     }
+  //   }
+  //   catch(err){
+  //     console.log(err);
+  //     res.status(500).json({error:"Internal server error"});
+  //   }
+  // })
 
     router.get('/name/:name',async (req,res)=>{
       try{
