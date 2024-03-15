@@ -64,19 +64,21 @@
                 body: JSON.stringify(formData)
             })
             .then(response => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error('Network response was not ok.');
-            })
-            .then(data => {
-                console.log('Success:', data);
-                // Handle success response here
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // Handle error here
-            });
+        if (!response.ok) {
+            throw new Error('Network response was not ok.');
+        }
+        return response.json(); // Parse response body as JSON
+    })
+    .then(data => {
+        // Handle success response here
+        alert('Registration successful!'); // Display a success message to the user
+        console.log('Success:', data); // Log the JSON response data
+    })
+    .catch(error => {
+        // Handle error here
+        console.error('Error:', error);
+        alert('An error occurred. Please try again later.'); // Display an error message to the user
+    });
         });
     </script>
 </body>

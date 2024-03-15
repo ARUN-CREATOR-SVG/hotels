@@ -14,7 +14,7 @@ router.post('/signup', async (req,res)=>{
   // save the  new person to the database
   const response=await newPerson.save();
   console.log("data saved");
-  res.send('we have got your data hahahaha')
+  
   const payload={
     id:response.id,
     username:response.username
