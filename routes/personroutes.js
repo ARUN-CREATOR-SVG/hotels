@@ -12,9 +12,9 @@ router.post('/signup', async (req,res)=>{
   // create a new person document using the mongoose model
   const newPerson=new person(data);
   // save the  new person to the database
-  res.send('we have got your data hahahaha')
   const response=await newPerson.save();
   console.log("data saved");
+  res.send('we have got your data hahahaha')
   const payload={
     id:response.id,
     username:response.username
