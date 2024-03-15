@@ -7,7 +7,7 @@
 </head>
 <body>
     <h2>Submit Form</h2>
-    <form name="Arun" action="https://first247.onrender.com/person/signup" method="post"  >
+    <form id="myForm">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br><br>
 
@@ -26,10 +26,50 @@
         <label for="mobile">Mobile:</label>
         <input type="number" id="mobile" name="mobile"  required><br><br>
 
-        <label for="work">Work:</label>
+        <label for="work" >Work:</label>
         <input type="text" id="work" name="work" required><br><br>
 
         <input type="submit" value="Submit">
     </form>
+
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            // Get form data
+            const formData = {
+                name: document.getElementById('name').value,
+                age: document.getElementById('age').value,
+                email: document.getElementById('email').value,
+                address: document.getElementById('address').value,
+                salary: document.getElementById('salary').value,
+                mobile: document.getElementById('mobile').value,
+                work: document.getElementById('work').value
+            };
+
+            // Send data as JSON using fetch
+            fetch('https://first247.onrender.com/person/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+                console.log('Success:', data);
+                // Handle success response here
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle error here
+            });
+        });
+    </script>
 </body>
 </html>
